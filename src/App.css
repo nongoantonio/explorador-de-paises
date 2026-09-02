@@ -1,0 +1,294 @@
+/*
+  App.css — estilos específicos dos componentes da aplicação.
+  index.css trata do "fundo" da casa; este ficheiro trata da "mobília".
+*/
+
+.app {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 64px) clamp(20px, 5vw, 32px) 48px;
+}
+
+/* ---------- HERO ---------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.hero__intro {
+  max-width: 640px;
+}
+
+.hero__kicker {
+  color: var(--color-compass);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.hero__subtitle {
+  margin-top: 16px;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+  max-width: 46ch;
+}
+
+/* ---------- SEARCH BAR ---------- */
+
+.search-bar {
+  max-width: 480px;
+}
+
+.search-bar__label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+
+.search-bar__field {
+  display: flex;
+  /* A borda tracejada + o corte no canto direito lembram um cupão/bilhete
+     de viagem picotado — um detalhe de identidade visual, não decoração ao acaso. */
+  border: 1.5px dashed var(--color-ocean);
+  border-radius: var(--radius-sm);
+  background: var(--color-card);
+  overflow: hidden;
+}
+
+.search-bar__field input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-ink);
+}
+
+.search-bar__field input:focus {
+  outline: none;
+}
+
+.search-bar__field button {
+  border: none;
+  background: var(--color-ocean);
+  color: var(--color-paper);
+  padding: 0 22px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.search-bar__field button:hover {
+  background-color: var(--color-ocean-light);
+}
+
+/* ---------- REGION FILTER ---------- */
+
+.region-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.region-filter button {
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-ink);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.region-filter button:hover {
+  border-color: var(--color-ocean);
+}
+
+.region-filter button.is-active {
+  background: var(--color-ocean);
+  border-color: var(--color-ocean);
+  color: var(--color-paper);
+}
+
+/* ---------- GRID + CARDS ---------- */
+
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.country-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.country-card__flag-wrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px dashed var(--color-border);
+  background: var(--color-paper);
+}
+
+.country-card__flag {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* "Selo" decorativo no canto da bandeira, com o continente do país —
+   reforça a metáfora de "postal/passaporte" sem usar rótulos em CAIXA ALTA. */
+.country-card__stamp {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(251, 250, 245, 0.92);
+  color: var(--color-ocean);
+  border: 1px solid var(--color-ocean);
+  border-radius: var(--radius-sm);
+  padding: 3px 9px;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.country-card__body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.country-card h3 {
+  font-size: 1.25rem;
+}
+
+.country-card__official {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.country-card__facts {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.country-card__facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px dotted var(--color-border);
+}
+
+.country-card__facts > div:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.country-card__facts dt {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.country-card__facts dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* ---------- LOADER ---------- */
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 80px 0;
+  color: var(--color-muted);
+}
+
+.loader__compass {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-ocean);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- STATE MESSAGE (erro / vazio) ---------- */
+
+.state-message {
+  text-align: center;
+  padding: 80px 20px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.state-message h2 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.state-message p {
+  color: var(--color-muted);
+  margin-bottom: 22px;
+}
+
+.state-message button {
+  border: 1px solid var(--color-ocean);
+  background: transparent;
+  color: var(--color-ocean);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.state-message button:hover {
+  background: var(--color-ocean);
+  color: var(--color-paper);
+}
+
+/* ---------- FOOTER ---------- */
+
+.app__footer {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--color-border);
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}

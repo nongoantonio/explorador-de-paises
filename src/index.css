@@ -1,0 +1,104 @@
+/*
+  index.css — estilos GLOBAIS, aplicados à página inteira.
+  Aqui importamos as fontes, fazemos um "reset" básico do browser
+  e definimos as "design tokens" (variáveis CSS) usadas em todo o
+  projeto: cores, tipografia, espaçamentos e cantos arredondados.
+  Manter tudo centralizado aqui facilita mudar o visual todo de uma vez.
+*/
+
+/* Fraunces: serifada com carácter "de atlas antigo", usada em títulos.
+   IBM Plex Sans: sã, técnica, ótima para números/dados (população, etc). */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
+:root {
+  /* --- Paleta de cores (tema "atlas de viagem") --- */
+  --color-paper: #f1efe6; /* fundo principal, tom de papel pergaminho */
+  --color-card: #fbfaf5; /* fundo dos cartões, ligeiramente mais claro */
+  --color-ink: #172420; /* texto principal, quase preto com base verde */
+  --color-muted: #62726a; /* texto secundário */
+  --color-ocean: #14504c; /* accent principal (botões, links, destaques) */
+  --color-ocean-light: #1f7a73; /* estado de hover do accent principal */
+  --color-compass: #b8862b; /* accent secundário (dourado, detalhes) */
+  --color-border: #dcd7c8; /* bordas subtis sobre o papel */
+
+  /* --- Tipografia --- */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+
+  /* --- Espaçamento e forma --- */
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --shadow-card: 0 12px 24px -18px rgba(23, 36, 32, 0.45);
+
+  color-scheme: light;
+}
+
+/* Reset simples: remove margens/padding por defeito do browser e
+   garante que "box-sizing: border-box" se aplica a tudo, o que torna
+   os cálculos de largura/altura muito mais previsíveis. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  /* Uma textura muito subtil de "papel", feita só com gradientes radiais
+     repetidos — nenhuma imagem externa necessária. */
+  background-image: radial-gradient(circle at 1px 1px, rgba(23, 36, 32, 0.05) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  margin: 0;
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+a {
+  color: var(--color-ocean);
+}
+
+/* Respeita utilizadores que preferem menos animações no sistema operativo.
+   É uma boa prática de acessibilidade que reduz o risco de desconforto. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Estado de foco visível para navegação por teclado — acessibilidade. */
+:focus-visible {
+  outline: 2px solid var(--color-ocean);
+  outline-offset: 2px;
+}
