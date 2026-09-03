@@ -4,6 +4,7 @@
 // aplicar-lhe uma classe diferente (é assim que pintamos o ícone/texto
 // da secção onde o utilizador está).
 import { NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Compass, Heart, Info } from "lucide-react";
 
 const TABS = [
@@ -24,8 +25,18 @@ export function BottomNav() {
             "bottom-nav__item" + (isActive ? " is-active" : "")
           }
         >
-          <Icon size={22} strokeWidth={2} aria-hidden="true" />
-          <span>{label}</span>
+          {({ isActive }) => (
+            <>
+              <motion.span
+                className="bottom-nav__icon"
+                animate={{ scale: isActive ? 1.15 : 1, y: isActive ? -2 : 0 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              >
+                <Icon size={22} strokeWidth={2} aria-hidden="true" />
+              </motion.span>
+              <span>{label}</span>
+            </>
+          )}
         </NavLink>
       ))}
     </nav>

@@ -756,3 +756,159 @@
   color: #e0567a;
   background: rgba(255, 255, 255, 0.85);
 }
+
+/* ============ RESULT STACK (cartão de destaque + lista) ============ */
+
+.explore-page__result-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ============ SPOTLIGHT CARD (resultado da pesquisa) ============ */
+
+.spotlight-card {
+  display: block;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--color-ink);
+  box-shadow: var(--shadow-card);
+}
+
+.spotlight-card__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.spotlight-card__flag {
+  width: 52px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.spotlight-card__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.spotlight-card__text strong {
+  font-size: 1.05rem;
+}
+
+.spotlight-card__text span {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
+.spotlight-card__chevron {
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.spotlight-card__landscape {
+  position: relative;
+  width: 100%;
+  height: 170px;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.spotlight-card__landscape img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spotlight-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+}
+
+.spotlight-card__credit {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  background: rgba(18, 56, 50, 0.65);
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+/* Efeito "shimmer" enquanto a imagem carrega — uma faixa clara que
+   desliza sobre um fundo cinzento, sinal universal de "a carregar". */
+.spotlight-card__shimmer,
+.detail-landscape__placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    var(--color-border) 30%,
+    #f2efe2 50%,
+    var(--color-border) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ============ DETAIL LANDSCAPE (separador "Visão geral") ============ */
+
+.detail-landscape {
+  position: relative;
+  width: 100%;
+  height: 170px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: var(--color-border);
+}
+
+.detail-landscape img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-landscape__credit {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  background: rgba(18, 56, 50, 0.65);
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+/* ============ BOTTOM NAV ICON WRAPPER ============ */
+
+.bottom-nav__icon {
+  display: flex;
+}

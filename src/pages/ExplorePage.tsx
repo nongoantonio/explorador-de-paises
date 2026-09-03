@@ -1,21 +1,48 @@
+import { motion, AnimatePresence } from "framer-motion";
 import { useCountriesContext } from "../context/CountriesContext";
 import { useCountryFilter } from "../hooks/useCountryFilter";
 import { SearchBar } from "../components/SearchBar";
 import { ContinentGrid } from "../components/ContinentGrid";
 import { CountryListItem } from "../components/CountryListItem";
+import { CountrySpotlight } from "../components/CountrySpotlight";
 import { Loader } from "../components/Loader";
 import { StateMessage } from "../components/StateMessage";
 import { GlobeIllustration } from "../components/GlobeIllustration";
 import { MountainBanner } from "../components/MountainBanner";
+
+// Variantes do framer-motion para a lista de resultados: o contentor
+// avisa cada filho com um pequeno atraso ("staggerChildren"), criando
+// o efeito de cascata quando os resultados aparecem/mudam.
+const listVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.045 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export function ExplorePage() {
   const { countries, status, errorMessage, retry } = useCountriesContext();
   const { searchTerm, activeRegion, filteredCountries, handleSearch, handleRegionFilter, reset } =
     useCountryFilter(countries);
 
+  // Quando há um termo de pesquisa ativo, destacamos o primeiro resultado
+  // num cartão maior, com a paisagem do país — os restantes (se houver
+  // mais do que um) continuam como lista simples por baixo.
+  const isSearching = searchTerm.trim().length > 0;
+  const spotlightCountry = isSearching ? filteredCountries[0] : undefined;
+  const remainingCountries = isSearching ? filteredCountries.slice(1) : filteredCountries;
+
   return (
     <div className="explore-page">
-      <header className="hero">
+      <motion.header
+        className="hero"
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <div className="hero__brand">
           <span className="hero__brand-icon" aria-hidden="true">
             🌍
@@ -37,10 +64,15 @@ export function ExplorePage() {
           </p>
         </div>
 
-        <div className="hero__globe">
+        <motion.div
+          className="hero__globe"
+          initial={{ opacity: 0, scale: 0.85, rotate: -8 }}
+          animate={{ opacity: 0.95, scale: 1, rotate: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+        >
           <GlobeIllustration />
-        </div>
-      </header>
+        </motion.div>
+      </motion.header>
 
       <div className="explore-page__controls">
         <SearchBar value={searchTerm} onSearch={handleSearch} />
@@ -71,17 +103,36 @@ export function ExplorePage() {
         )}
 
         {status === "success" && filteredCountries.length > 0 && (
-          <ul className="country-list">
-            {filteredCountries.map((country) => (
-              <li key={country.cca3}>
-                <CountryListItem country={country} />
-              </li>
-            ))}
-          </ul>
+          <div className="explore-page__result-stack">
+            <AnimatePresence mode="popLayout">
+              {spotlightCountry && (
+                <CountrySpotlight key={spotlightCountry.cca3} country={spotlightCountry} />
+              )}
+            </AnimatePresence>
+
+            {remainingCountries.length > 0 && (
+              <motion.ul
+                className="country-list"
+                variants={listVariants}
+                initial="hidden"
+                animate="visible"
+                // A key muda a cada nova pesquisa/filtro, o que faz o
+                // framer-motion repetir a animação em cascata sempre
+                // que os resultados mudam.
+                key={remainingCountries.map((c) => c.cca3).join("-")}
+              >
+                {remainingCountries.map((country) => (
+                  <motion.li key={country.cca3} variants={itemVariants}>
+                    <CountryListItem country={country} />
+                  </motion.li>
+                ))}
+              </motion.ul>
+            )}
+          </div>
         )}
       </main>
 
-      <MountainBanner />
+      {!isSearching && <MountainBanner />}
     </div>
   );
 }
