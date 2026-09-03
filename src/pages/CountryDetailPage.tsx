@@ -53,7 +53,7 @@ export function CountryDetailPage() {
 
   const capital = country.capital[0] ?? "Sem capital registada";
   const neighborNames = country.borders
-    .map((borderCode) => getByCode(borderCode)?.name.common)
+    .map((borderCode) => getByCode(borderCode)?.name.pt)
     .filter((name): name is string => Boolean(name));
 
   return (
@@ -68,21 +68,21 @@ export function CountryDetailPage() {
           <Link to="/" className="detail-header__icon-button" aria-label="Voltar">
             <ArrowLeft size={20} strokeWidth={2} />
           </Link>
-          <FavoriteButton cca3={country.cca3} countryName={country.name.common} />
+          <FavoriteButton cca3={country.cca3} countryName={country.name.pt} />
         </div>
 
         <div className="detail-header__identity">
           <motion.img
             src={getFlagUrl(country.cca2)}
-            alt={`Bandeira de ${country.name.common}`}
+            alt={`Bandeira de ${country.name.pt}`}
             className="detail-header__flag"
             initial={{ opacity: 0, scale: 0.8, rotate: -6 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
           />
           <div>
-            <h1>{country.name.common}</h1>
-            <p>{country.name.official}</p>
+            <h1>{country.name.pt}</h1>
+            <p>{country.name.ptOfficial}</p>
           </div>
         </div>
       </motion.header>
@@ -117,9 +117,9 @@ export function CountryDetailPage() {
                 </div>
 
                 <section className="about-country">
-                  <h2>Sobre {country.name.common}</h2>
+                  <h2>Sobre {country.name.pt}</h2>
                   <p>
-                    {country.name.common} fica na região de{" "}
+                    {country.name.pt} fica na região de{" "}
                     {REGION_LABELS[country.region as Region] ?? country.region}
                     {country.subregion ? ` (${country.subregion})` : ""}, com uma população de
                     aproximadamente {numberFormatter.format(country.population)} habitantes.
@@ -158,7 +158,7 @@ export function CountryDetailPage() {
 
             {activeTab === "Bandeira" && (
               <div className="flag-showcase">
-                <img src={getFlagSvgUrl(country.cca2)} alt={`Bandeira de ${country.name.common}`} />
+                <img src={getFlagSvgUrl(country.cca2)} alt={`Bandeira de ${country.name.pt}`} />
                 <p className="flag-showcase__emoji" aria-hidden="true">{country.flagEmoji}</p>
               </div>
             )}

@@ -26,14 +26,14 @@ export function CountryListItem({ country }: CountryListItemProps) {
     >
       <img
         src={getFlagUrl(country.cca2)}
-        alt={`Bandeira de ${country.name.common}`}
+        alt={`Bandeira de ${country.name.pt}`}
         className="country-row__flag"
         loading="lazy"
         width={48}
         height={36}
       />
       <div className="country-row__text">
-        <strong>{country.name.common}</strong>
+        <strong>{country.name.pt}</strong>
         <span>{capital} · {country.region}</span>
       </div>
       <ChevronRight size={20} strokeWidth={2} className="country-row__chevron" aria-hidden="true" />

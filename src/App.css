@@ -234,19 +234,29 @@
   outline: none;
 }
 
-.search-bar__field button {
-  border: none;
-  background: var(--color-forest);
-  color: var(--color-cream-on-forest);
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  font-weight: 700;
-  transition: background-color 0.2s ease;
+.search-bar__field:focus-within {
+  border-color: var(--color-forest);
+  box-shadow: 0 0 0 3px rgba(18, 56, 50, 0.12), var(--shadow-card);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.search-bar__field button:hover {
-  background-color: var(--color-forest-light);
+.search-bar__clear {
+  border: none;
+  background: var(--color-bg);
+  color: var(--color-muted);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.search-bar__clear:hover {
+  background: var(--color-forest);
+  color: var(--color-cream-on-forest);
 }
 
 /* ============ CONTINENT GRID ============ */

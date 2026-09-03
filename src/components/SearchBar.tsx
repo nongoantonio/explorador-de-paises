@@ -1,24 +1,19 @@
-import { Search } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { Search, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface SearchBarProps {
   value: string;
   onSearch: (term: string) => void;
 }
 
-// Componente controlado: mantemos um valor "local" (draft) enquanto o
-// utilizador escreve, e só avisamos o componente-pai quando ele
-// submete o formulário. Isto evita filtrar a lista a cada letra digitada.
+// Pesquisa 100% dinâmica: cada tecla que o utilizador escreve chama
+// onSearch imediatamente (sem precisar de submeter nada). Como a
+// filtragem acontece em memória sobre uma lista pequena (195 países),
+// não há custo nenhum em recalcular a cada letra — o resultado sente-se
+// instantâneo.
 export function SearchBar({ value, onSearch }: SearchBarProps) {
-  const [draft, setDraft] = useState(value);
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    onSearch(draft.trim());
-  }
-
   return (
-    <form className="search-bar" onSubmit={handleSubmit} role="search">
+    <div className="search-bar">
       <label htmlFor="country-search" className="search-bar__label">
         Procurar um país pelo nome
       </label>
@@ -27,13 +22,31 @@ export function SearchBar({ value, onSearch }: SearchBarProps) {
         <input
           id="country-search"
           type="text"
-          value={draft}
-          onChange={(event) => setDraft(event.target.value)}
-          placeholder="ex.: Angola, Brasil, Japão..."
+          value={value}
+          onChange={(event) => onSearch(event.target.value)}
+          placeholder="ex.: Angola, Alemanha, Japão..."
           autoComplete="off"
+          inputMode="search"
         />
-        <button type="submit">Pesquisar</button>
+        {/* Botão de limpar só aparece quando há texto escrito — evita
+            ocupar espaço desnecessário quando a pesquisa está vazia. */}
+        <AnimatePresence>
+          {value && (
+            <motion.button
+              type="button"
+              className="search-bar__clear"
+              onClick={() => onSearch("")}
+              aria-label="Limpar pesquisa"
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              transition={{ duration: 0.15 }}
+            >
+              <X size={16} strokeWidth={2.4} />
+            </motion.button>
+          )}
+        </AnimatePresence>
       </div>
-    </form>
+    </div>
   );
 }

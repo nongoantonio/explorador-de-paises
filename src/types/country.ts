@@ -23,6 +23,8 @@ export interface Country {
   name: {
     common: string;
     official: string;
+    pt: string; // nome comum em português (ex.: "Alemanha") — usado como nome principal na interface
+    ptOfficial: string; // nome oficial em português (ex.: "República Federal da Alemanha")
   };
   capital: string[];
   region: string;

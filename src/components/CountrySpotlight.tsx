@@ -30,11 +30,11 @@ export function CountrySpotlight({ country }: CountrySpotlightProps) {
         <div className="spotlight-card__top">
           <img
             src={getFlagUrl(country.cca2)}
-            alt={`Bandeira de ${country.name.common}`}
+            alt={`Bandeira de ${country.name.pt}`}
             className="spotlight-card__flag"
           />
           <div className="spotlight-card__text">
-            <strong>{country.name.common}</strong>
+            <strong>{country.name.pt}</strong>
             <span>
               {capital} · {country.region}
             </span>
@@ -48,7 +48,7 @@ export function CountrySpotlight({ country }: CountrySpotlightProps) {
               <motion.img
                 key={imageUrl}
                 src={imageUrl}
-                alt={`Paisagem de ${country.name.common}`}
+                alt={`Paisagem de ${country.name.pt}`}
                 initial={{ opacity: 0, scale: 1.04 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.45, ease: "easeOut" }}

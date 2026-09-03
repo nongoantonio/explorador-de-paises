@@ -4,6 +4,7 @@
 // um array — instantâneo, sem loading, sem poder falhar por causa da rede.
 import { useMemo, useState } from "react";
 import type { Country, Region } from "../types/country";
+import { normalizeSearchText } from "../lib/normalizeSearchText";
 
 export function useCountryFilter(countries: Country[]) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,14 +24,25 @@ export function useCountryFilter(countries: Country[]) {
   }
 
   const filteredCountries = useMemo(() => {
-    const term = searchTerm.trim().toLowerCase();
+    const term = normalizeSearchText(searchTerm);
 
     return countries
       .filter((country) => (activeRegion ? country.region === activeRegion : true))
-      .filter((country) =>
-        term ? country.name.common.toLowerCase().includes(term) : true
-      )
-      .sort((a, b) => a.name.common.localeCompare(b.name.common));
+      .filter((country) => {
+        if (!term) return true;
+        // Comparamos o termo pesquisado com o nome comum em inglês, o
+        // nome oficial e o nome em português — assim "Alemanha" e
+        // "Germany" encontram o mesmo país.
+        const candidates = [
+          country.name.common,
+          country.name.official,
+          country.name.pt,
+        ];
+        return candidates.some((candidate) =>
+          normalizeSearchText(candidate).includes(term)
+        );
+      })
+      .sort((a, b) => a.name.pt.localeCompare(b.name.pt, "pt"));
   }, [countries, searchTerm, activeRegion]);
 
   return {

@@ -52,6 +52,8 @@ const slim = countries
       name: {
         common: c.name.common,
         official: c.name.official,
+        pt: c.translations?.por?.common || c.name.common,
+        ptOfficial: c.translations?.por?.official || c.name.official,
       },
       capital: c.capital || [],
       region: c.region,
