@@ -1,5 +1,5 @@
 {
-  "name": "countries-explorer",
+  "name": "atlas-interativo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,9 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "framer-motion": "^13.2.0",
+    "lucide-react": "^1.39.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.3"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",

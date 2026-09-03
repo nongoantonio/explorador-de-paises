@@ -1,80 +1,233 @@
 /*
-  App.css — estilos específicos dos componentes da aplicação.
-  index.css trata do "fundo" da casa; este ficheiro trata da "mobília".
+  App.css — estilos de todos os componentes e páginas.
+  Está organizado em secções, na ordem em que aparecem na aplicação.
 */
 
-.app {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: clamp(24px, 5vw, 64px) clamp(20px, 5vw, 32px) 48px;
+/* ============ APP SHELL ============ */
+/* A aplicação é pensada "mobile-first", como uma app de telemóvel.
+   Em ecrãs largos, limitamos a largura e centramos, para não esticar
+   um layout desenhado para telemóvel até ficar ilegível. */
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: var(--color-forest);
 }
 
-/* ---------- HERO ---------- */
+.app-shell__screen {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding-bottom: var(--bottom-nav-height);
+  position: relative;
+}
 
-.hero {
+@media (min-width: 560px) {
+  .app-shell {
+    padding: 32px 16px;
+  }
+  .app-shell__screen {
+    min-height: calc(100vh - 64px);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* ============ BOTTOM NAV ============ */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: var(--bottom-nav-height);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: stretch;
+  z-index: 20;
+}
+
+.bottom-nav__item {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  padding-bottom: 40px;
-  margin-bottom: 40px;
-  border-bottom: 1px dashed var(--color-border);
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--color-muted);
+  text-decoration: none;
+  font-size: 0.72rem;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.bottom-nav__item.is-active {
+  color: var(--color-forest);
+}
+
+.bottom-nav__item.is-active svg {
+  color: var(--color-gold);
+}
+
+/* ============ HERO (Explorar) ============ */
+
+.hero {
+  background: linear-gradient(160deg, var(--color-forest), var(--color-forest-light));
+  color: var(--color-cream-on-forest);
+  padding: 28px 20px 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  margin-bottom: 22px;
+}
+
+.hero__brand-icon {
+  font-size: 1.4rem;
+}
+
+.hero__brand-text {
+  line-height: 1.1;
+  font-size: 0.95rem;
+}
+
+.hero__brand-text small {
+  font-weight: 600;
+  color: var(--color-gold);
+  letter-spacing: 0.08em;
+  font-size: 0.65rem;
 }
 
 .hero__intro {
-  max-width: 640px;
-}
-
-.hero__kicker {
-  color: var(--color-compass);
-  font-weight: 600;
-  font-size: 0.95rem;
-  margin-bottom: 10px;
+  max-width: 260px;
+  position: relative;
+  z-index: 1;
 }
 
 .hero h1 {
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+  font-size: 1.9rem;
+  line-height: 1.12;
+  color: #ffffff;
 }
 
-.hero__subtitle {
-  margin-top: 16px;
-  color: var(--color-muted);
-  font-size: 1.05rem;
-  max-width: 46ch;
+.hero__intro p {
+  margin-top: 12px;
+  color: rgba(243, 237, 224, 0.8);
+  font-size: 0.92rem;
 }
 
-/* ---------- SEARCH BAR ---------- */
-
-.search-bar {
-  max-width: 480px;
+.hero__globe {
+  position: absolute;
+  right: -30px;
+  top: 10px;
+  width: 190px;
+  opacity: 0.95;
 }
+
+/* ============ GLOBE ILLUSTRATION ============ */
+
+.globe-illustration {
+  width: 100%;
+  height: auto;
+}
+
+.globe-illustration__orbit {
+  fill: none;
+  stroke: rgba(201, 162, 39, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.globe-illustration__body {
+  fill: #1f5a51;
+  stroke: var(--color-gold);
+  stroke-width: 1.5;
+}
+
+.globe-illustration__line {
+  fill: none;
+  stroke: rgba(243, 237, 224, 0.35);
+  stroke-width: 1;
+}
+
+.globe-illustration__land {
+  fill: rgba(201, 162, 39, 0.55);
+}
+
+.globe-illustration__pin path {
+  fill: var(--color-gold);
+}
+
+.globe-illustration__pin-hole {
+  fill: var(--color-forest);
+}
+
+.globe-illustration__pin--small {
+  opacity: 0.85;
+}
+
+/* ============ EXPLORE PAGE CONTROLS ============ */
+
+.explore-page__controls {
+  padding: 20px 20px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.explore-page__filter-heading {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* ============ SEARCH BAR ============ */
 
 .search-bar__label {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   color: var(--color-muted);
   margin-bottom: 8px;
+  font-weight: 600;
 }
 
 .search-bar__field {
   display: flex;
-  /* A borda tracejada + o corte no canto direito lembram um cupão/bilhete
-     de viagem picotado — um detalhe de identidade visual, não decoração ao acaso. */
-  border: 1.5px dashed var(--color-ocean);
+  align-items: center;
+  gap: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  background: var(--color-card);
-  overflow: hidden;
+  padding: 4px 6px 4px 14px;
+  box-shadow: var(--shadow-card);
+}
+
+.search-bar__field svg {
+  color: var(--color-muted);
+  flex-shrink: 0;
 }
 
 .search-bar__field input {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 14px 16px;
+  padding: 10px 4px;
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--color-ink);
+  min-width: 0;
 }
 
 .search-bar__field input:focus {
@@ -83,162 +236,166 @@
 
 .search-bar__field button {
   border: none;
-  background: var(--color-ocean);
-  color: var(--color-paper);
-  padding: 0 22px;
-  font-size: 0.95rem;
-  font-weight: 500;
+  background: var(--color-forest);
+  color: var(--color-cream-on-forest);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
   transition: background-color 0.2s ease;
 }
 
 .search-bar__field button:hover {
-  background-color: var(--color-ocean-light);
+  background-color: var(--color-forest-light);
 }
 
-/* ---------- REGION FILTER ---------- */
+/* ============ CONTINENT GRID ============ */
 
-.region-filter {
-  display: flex;
-  flex-wrap: wrap;
+.continent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
-.region-filter button {
-  border: 1px solid var(--color-border);
-  background: var(--color-card);
-  color: var(--color-ink);
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
-}
-
-.region-filter button:hover {
-  border-color: var(--color-ocean);
-}
-
-.region-filter button.is-active {
-  background: var(--color-ocean);
-  border-color: var(--color-ocean);
-  color: var(--color-paper);
-}
-
-/* ---------- GRID + CARDS ---------- */
-
-.country-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 22px;
-}
-
-.country-card {
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
+.continent-tile {
   display: flex;
   flex-direction: column;
-}
-
-.country-card__flag-wrap {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  border-bottom: 1px dashed var(--color-border);
-  background: var(--color-paper);
-}
-
-.country-card__flag {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* "Selo" decorativo no canto da bandeira, com o continente do país —
-   reforça a metáfora de "postal/passaporte" sem usar rótulos em CAIXA ALTA. */
-.country-card__stamp {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(251, 250, 245, 0.92);
-  color: var(--color-ocean);
-  border: 1px solid var(--color-ocean);
-  border-radius: var(--radius-sm);
-  padding: 3px 9px;
-  font-size: 0.72rem;
-  font-weight: 500;
-}
-
-.country-card__body {
-  padding: 18px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.country-card h3 {
-  font-size: 1.25rem;
-}
-
-.country-card__official {
-  color: var(--color-muted);
-  font-size: 0.85rem;
-  margin-bottom: 12px;
-}
-
-.country-card__facts {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
+  padding: 16px 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-.country-card__facts > div {
+.continent-tile svg {
+  color: var(--color-forest);
+}
+
+.continent-tile.is-active {
+  background: var(--color-forest);
+  border-color: var(--color-forest);
+  color: var(--color-cream-on-forest);
+}
+
+.continent-tile.is-active svg {
+  color: var(--color-gold);
+}
+
+/* ============ COUNTRY LIST ============ */
+
+.explore-page__results {
+  padding: 20px;
+  min-height: 200px;
+}
+
+.country-list {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.country-row {
+  display: flex;
+  align-items: center;
   gap: 12px;
-  padding-top: 8px;
-  border-top: 1px dotted var(--color-border);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.country-card__facts > div:first-child {
-  border-top: none;
-  padding-top: 0;
+.country-row:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
 }
 
-.country-card__facts dt {
+.country-row__flag {
+  width: 48px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.country-row__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.country-row__text strong {
+  font-size: 0.95rem;
+}
+
+.country-row__text span {
+  font-size: 0.8rem;
   color: var(--color-muted);
-  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.country-card__facts dd {
-  margin: 0;
-  text-align: right;
-  font-weight: 500;
-  font-size: 0.9rem;
+.country-row__chevron {
+  color: var(--color-muted);
+  flex-shrink: 0;
 }
 
-/* ---------- LOADER ---------- */
+/* ============ MOUNTAIN BANNER ============ */
+
+.mountain-banner {
+  width: 100%;
+  height: 110px;
+  display: block;
+}
+
+.mountain-banner__sun {
+  fill: var(--color-gold);
+  opacity: 0.9;
+}
+
+.mountain-banner__layer--back {
+  fill: #dfe6da;
+}
+
+.mountain-banner__layer--mid {
+  fill: #9db6a4;
+}
+
+.mountain-banner__layer--front {
+  fill: var(--color-forest);
+}
+
+/* ============ LOADER ============ */
 
 .loader {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  padding: 80px 0;
+  gap: 16px;
+  padding: 64px 0;
   color: var(--color-muted);
 }
 
-.loader__compass {
-  width: 44px;
-  height: 44px;
+.loader__spinner {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 2px solid var(--color-border);
-  border-top-color: var(--color-ocean);
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-forest);
   animation: spin 0.9s linear infinite;
 }
 
@@ -248,47 +405,354 @@
   }
 }
 
-/* ---------- STATE MESSAGE (erro / vazio) ---------- */
+/* ============ STATE MESSAGE ============ */
 
 .state-message {
   text-align: center;
-  padding: 80px 20px;
-  max-width: 440px;
+  padding: 56px 20px;
+  max-width: 340px;
   margin: 0 auto;
 }
 
 .state-message h2 {
-  font-size: 1.6rem;
-  margin-bottom: 10px;
+  font-size: 1.3rem;
+  margin-bottom: 8px;
 }
 
 .state-message p {
   color: var(--color-muted);
-  margin-bottom: 22px;
+  margin-bottom: 18px;
+  font-size: 0.9rem;
 }
 
 .state-message button {
-  border: 1px solid var(--color-ocean);
+  border: 1px solid var(--color-forest);
   background: transparent;
-  color: var(--color-ocean);
-  padding: 10px 20px;
+  color: var(--color-forest);
+  padding: 9px 18px;
   border-radius: var(--radius-sm);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .state-message button:hover {
-  background: var(--color-ocean);
-  color: var(--color-paper);
+  background: var(--color-forest);
+  color: var(--color-cream-on-forest);
 }
 
-/* ---------- FOOTER ---------- */
+/* ============ SIMPLE PAGE (Favoritos / Sobre) ============ */
 
-.app__footer {
-  margin-top: 64px;
-  padding-top: 24px;
-  border-top: 1px dashed var(--color-border);
-  text-align: center;
+.simple-page {
+  padding: 28px 20px 20px;
+}
+
+.simple-page__header {
+  margin-bottom: 20px;
+}
+
+.simple-page__header h1 {
+  font-size: 1.6rem;
+  color: var(--color-forest);
+}
+
+.simple-page__header p {
+  margin-top: 6px;
   color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.simple-page__footnote {
+  margin-top: 20px;
   font-size: 0.85rem;
+}
+
+.simple-page__footnote a {
+  color: var(--color-forest);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ============ ABOUT PAGE ============ */
+
+.about-section {
+  margin-bottom: 22px;
+}
+
+.about-section h2 {
+  font-size: 1.05rem;
+  color: var(--color-forest);
+  margin-bottom: 8px;
+}
+
+.about-section p {
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  line-height: 1.6;
+}
+
+.about-section a {
+  color: var(--color-forest);
+  font-weight: 700;
+}
+
+.about-section__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.about-section__list li::before {
+  content: "· ";
+  color: var(--color-gold);
+  font-weight: 800;
+}
+
+/* ============ DETAIL PAGE ============ */
+
+.detail-header {
+  background: linear-gradient(160deg, var(--color-forest), var(--color-forest-light));
+  color: var(--color-cream-on-forest);
+  padding: 20px 20px 28px;
+}
+
+.detail-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.detail-header__icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-cream-on-forest);
+  text-decoration: none;
+  border: none;
+}
+
+.detail-header__identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.detail-header__flag {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid var(--color-gold);
+}
+
+.detail-header__identity h1 {
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.detail-header__identity p {
+  margin-top: 2px;
+  color: rgba(243, 237, 224, 0.75);
+  font-size: 0.85rem;
+}
+
+.detail-body {
+  padding: 18px 20px 28px;
+}
+
+/* ---- Tabs ---- */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.tabs__item {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 8px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tabs__item.is-active {
+  background: var(--color-forest);
+  color: var(--color-cream-on-forest);
+}
+
+/* ---- Stat list ---- */
+
+.stat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+
+.stat-row__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(18, 56, 50, 0.08);
+  color: var(--color-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-row__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-row__label {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+.stat-row__value {
+  font-size: 1rem;
+}
+
+/* ---- About country ---- */
+
+.about-country h2 {
+  font-size: 1.05rem;
+  color: var(--color-forest);
+  margin-bottom: 8px;
+}
+
+.about-country p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--color-ink);
+}
+
+/* ---- Info cards ---- */
+
+.info-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.info-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-card span {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+.info-card strong {
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+/* ---- Flag showcase ---- */
+
+.flag-showcase {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.flag-showcase img {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+.flag-showcase__emoji {
+  font-size: 2.4rem;
+  margin-top: 16px;
+}
+
+/* ---- Map tab ---- */
+
+.map-tab {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 0.9rem;
+}
+
+.map-tab p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-ink);
+}
+
+.map-tab__link {
+  align-self: flex-start;
+  background: var(--color-forest);
+  color: var(--color-cream-on-forest);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* ============ FAVORITE BUTTON ============ */
+
+.favorite-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: var(--color-cream-on-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.favorite-button.is-active {
+  color: #e0567a;
+  background: rgba(255, 255, 255, 0.85);
 }

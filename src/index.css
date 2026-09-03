@@ -1,41 +1,36 @@
 /*
-  index.css — estilos GLOBAIS, aplicados à página inteira.
-  Aqui importamos as fontes, fazemos um "reset" básico do browser
-  e definimos as "design tokens" (variáveis CSS) usadas em todo o
-  projeto: cores, tipografia, espaçamentos e cantos arredondados.
-  Manter tudo centralizado aqui facilita mudar o visual todo de uma vez.
+  index.css — estilos GLOBAIS. Fontes, reset do browser e "design
+  tokens" (variáveis CSS) usados em toda a aplicação.
 */
 
-/* Fraunces: serifada com carácter "de atlas antigo", usada em títulos.
-   IBM Plex Sans: sã, técnica, ótima para números/dados (população, etc). */
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
 
 :root {
-  /* --- Paleta de cores (tema "atlas de viagem") --- */
-  --color-paper: #f1efe6; /* fundo principal, tom de papel pergaminho */
-  --color-card: #fbfaf5; /* fundo dos cartões, ligeiramente mais claro */
-  --color-ink: #172420; /* texto principal, quase preto com base verde */
-  --color-muted: #62726a; /* texto secundário */
-  --color-ocean: #14504c; /* accent principal (botões, links, destaques) */
-  --color-ocean-light: #1f7a73; /* estado de hover do accent principal */
-  --color-compass: #b8862b; /* accent secundário (dourado, detalhes) */
-  --color-border: #dcd7c8; /* bordas subtis sobre o papel */
+  /* --- Paleta "atlas verde" --- */
+  --color-bg: #f6f2e8; /* fundo das páginas de lista, tom de papel */
+  --color-surface: #ffffff; /* cartões e superfícies elevadas */
+  --color-forest: #123832; /* verde profundo — cabeçalhos, nav ativa */
+  --color-forest-light: #1c4f47; /* verde um pouco mais claro, para gradientes/hover */
+  --color-gold: #c9a227; /* dourado — accent, ícones em destaque */
+  --color-ink: #17241f; /* texto principal */
+  --color-muted: #6b7a72; /* texto secundário */
+  --color-border: #e4dfcc; /* bordas subtis sobre o papel */
+  --color-cream-on-forest: #f3ede0; /* texto claro sobre fundo verde */
 
-  /* --- Tipografia --- */
-  --font-display: "Fraunces", Georgia, serif;
-  --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
 
-  /* --- Espaçamento e forma --- */
-  --radius-sm: 6px;
-  --radius-md: 14px;
-  --shadow-card: 0 12px 24px -18px rgba(23, 36, 32, 0.45);
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-pill: 999px;
+  --shadow-card: 0 10px 24px -16px rgba(18, 56, 50, 0.35);
+
+  /* Altura reservada para a barra de navegação fixa no fundo do ecrã. */
+  --bottom-nav-height: 72px;
 
   color-scheme: light;
 }
 
-/* Reset simples: remove margens/padding por defeito do browser e
-   garante que "box-sizing: border-box" se aplica a tudo, o que torna
-   os cálculos de largura/altura muito mais previsíveis. */
 *,
 *::before,
 *::after {
@@ -53,14 +48,10 @@ body,
 }
 
 body {
-  background-color: var(--color-paper);
+  background-color: var(--color-forest);
   color: var(--color-ink);
   font-family: var(--font-body);
   line-height: 1.5;
-  /* Uma textura muito subtil de "papel", feita só com gradientes radiais
-     repetidos — nenhuma imagem externa necessária. */
-  background-image: radial-gradient(circle at 1px 1px, rgba(23, 36, 32, 0.05) 1px, transparent 0);
-  background-size: 22px 22px;
 }
 
 h1,
@@ -68,8 +59,8 @@ h2,
 h3 {
   font-family: var(--font-display);
   margin: 0;
-  color: var(--color-ink);
-  font-weight: 500;
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -82,11 +73,20 @@ button {
 }
 
 a {
-  color: var(--color-ocean);
+  color: inherit;
 }
 
-/* Respeita utilizadores que preferem menos animações no sistema operativo.
-   É uma boa prática de acessibilidade que reduz o risco de desconforto. */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -97,8 +97,7 @@ a {
   }
 }
 
-/* Estado de foco visível para navegação por teclado — acessibilidade. */
 :focus-visible {
-  outline: 2px solid var(--color-ocean);
+  outline: 2px solid var(--color-gold);
   outline-offset: 2px;
 }

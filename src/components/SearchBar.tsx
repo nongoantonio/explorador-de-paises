@@ -1,20 +1,20 @@
-// Componente controlado: o valor do input vive no estado do React ("value"),
-// e não diretamente no DOM. É o padrão recomendado em formulários React.
+import { Search } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 interface SearchBarProps {
+  value: string;
   onSearch: (term: string) => void;
 }
 
-export function SearchBar({ onSearch }: SearchBarProps) {
-  const [value, setValue] = useState("");
+// Componente controlado: mantemos um valor "local" (draft) enquanto o
+// utilizador escreve, e só avisamos o componente-pai quando ele
+// submete o formulário. Isto evita filtrar a lista a cada letra digitada.
+export function SearchBar({ value, onSearch }: SearchBarProps) {
+  const [draft, setDraft] = useState(value);
 
-  // Ao submeter o formulário (Enter ou clique no botão), evitamos o
-  // comportamento padrão do browser (recarregar a página) e chamamos
-  // a função que veio do componente pai via props.
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    onSearch(value);
+    onSearch(draft.trim());
   }
 
   return (
@@ -23,11 +23,12 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         Procurar um país pelo nome
       </label>
       <div className="search-bar__field">
+        <Search size={18} strokeWidth={2} aria-hidden="true" />
         <input
           id="country-search"
           type="text"
-          value={value}
-          onChange={(event) => setValue(event.target.value)}
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
           placeholder="ex.: Angola, Brasil, Japão..."
           autoComplete="off"
         />
