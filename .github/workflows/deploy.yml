@@ -1,0 +1,63 @@
+# Este workflow publica automaticamente o site no GitHub Pages sempre
+# que há um push para a branch "main". Não precisas de correr nenhum
+# comando manualmente — o GitHub trata de tudo sozinho.
+#
+# Para ativar (só precisas de fazer isto UMA vez):
+#   1. Vai a Settings → Pages, no teu repositório no GitHub
+#   2. Em "Build and deployment" → "Source", escolhe "GitHub Actions"
+#   3. Faz push para "main" — o resto acontece sozinho
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  # Permite também disparar o deploy manualmente, a partir do separador
+  # "Actions" no GitHub, sem precisar de um novo commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Evita dois deploys a correr ao mesmo tempo — se fizeres vários pushes
+# seguidos, só o mais recente é publicado.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descarregar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar o Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Usamos "npm install" em vez de "npm ci" para não obrigar a
+      # teres um package-lock.json sempre atualizado e commitado.
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Compilar o site (npm run build)
+        run: npm run build
+
+      - name: Preparar o resultado para publicação
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

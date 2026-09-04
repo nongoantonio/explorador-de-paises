@@ -971,3 +971,108 @@
 .bottom-nav__icon {
   display: flex;
 }
+
+/* ============ PROFILE CARD (página Sobre) ============ */
+
+.profile-card {
+  background: var(--color-forest);
+  color: var(--color-cream-on-forest);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-card);
+  /* Um brilho radial subtil, para o cartão não ficar um bloco plano de cor */
+  background-image: radial-gradient(
+    circle at 50% -10%,
+    rgba(201, 162, 39, 0.18),
+    transparent 60%
+  );
+}
+
+.profile-card__avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  color: var(--color-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display, inherit);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border: 3px solid rgba(243, 237, 224, 0.25);
+}
+
+.profile-card__name {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.profile-card__role {
+  margin: -6px 0 0;
+  font-size: 0.85rem;
+  color: rgba(243, 237, 224, 0.75);
+}
+
+.profile-card__tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 0;
+}
+
+.profile-card__tags li {
+  background: rgba(243, 237, 224, 0.1);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  color: var(--color-gold);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: var(--radius-pill);
+}
+
+.profile-card__bio {
+  margin: 6px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(243, 237, 224, 0.88);
+  max-width: 46ch;
+}
+
+.profile-card__links {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.profile-card__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(243, 237, 224, 0.1);
+  color: var(--color-cream-on-forest);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(243, 237, 224, 0.25);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-card__links a:hover {
+  background: var(--color-gold);
+  color: var(--color-forest);
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+}

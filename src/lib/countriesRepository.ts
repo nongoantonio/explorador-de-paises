@@ -14,7 +14,13 @@ export async function fetchAllCountries(): Promise<Country[]> {
   // sessão do utilizador, por isso só vale a pena pedir uma vez.
   if (cache) return cache;
 
-  const response = await fetch("/countries.json");
+  // "import.meta.env.BASE_URL" é o valor definido em "base" no
+  // vite.config.ts (ex.: "/atlas-interativo/" em produção, ou "/" no
+  // servidor de desenvolvimento local). Sem isto, o pedido ia sempre
+  // para a raiz do domínio ("/countries.json"), o que funciona em
+  // localhost mas falha no GitHub Pages, onde o site vive numa
+  // subpasta (ex.: "/atlas-interativo/countries.json").
+  const response = await fetch(`${import.meta.env.BASE_URL}countries.json`);
 
   if (!response.ok) {
     throw new Error(
