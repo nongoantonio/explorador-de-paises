@@ -157,6 +157,32 @@
   stroke-width: 1.5;
 }
 
+/* O grupo "sphere" (corpo + meridianos + continentes) roda continuamente
+   sobre o próprio centro, dando a sensação de um globo em movimento.
+   Em vez de "transform-box: fill-box" (que tem comportamento
+   inconsistente em <g> entre browsers), usamos transform-origin com
+   as coordenadas exatas do centro no próprio sistema de coordenadas
+   do SVG (110px 110px = o centro do viewBox "0 0 220 220") — funciona
+   de forma previsível em qualquer browser. */
+.globe-illustration__sphere {
+  transform-origin: 110px 110px;
+  animation: globe-spin 18s linear infinite;
+}
+
+.globe-illustration__orbits {
+  transform-origin: 110px 110px;
+  animation: globe-spin 34s linear infinite reverse;
+}
+
+@keyframes globe-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .globe-illustration__line {
   fill: none;
   stroke: rgba(243, 237, 224, 0.35);
@@ -177,6 +203,29 @@
 
 .globe-illustration__pin--small {
   opacity: 0.85;
+}
+
+/* Os pins flutuam suavemente para cima/baixo, de forma independente
+   do globo — como se estivessem a "pairar" sobre os locais marcados
+   em vez de presos à rotação da esfera. Delays diferentes evitam que
+   os dois pins se movam exatamente em sincronia. */
+.globe-illustration__pin {
+  animation: pin-float 3.2s ease-in-out infinite;
+}
+
+.globe-illustration__pin--small {
+  animation-duration: 2.6s;
+  animation-delay: 0.4s;
+}
+
+@keyframes pin-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 /* ============ EXPLORE PAGE CONTROLS ============ */
