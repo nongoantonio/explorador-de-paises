@@ -24,8 +24,8 @@ export function SearchBar({ value, onSearch }: SearchBarProps) {
           type="text"
           value={value}
           onChange={(event) => onSearch(event.target.value)}
-          placeholder="ex.: Angola, Alemanha, Japão..."
-          autoComplete="off"
+          placeholder=""
+          autoComplete="on"
           inputMode="search"
         />
         {/* Botão de limpar só aparece quando há texto escrito — evita
