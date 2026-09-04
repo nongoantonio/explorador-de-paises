@@ -6,7 +6,7 @@ favoritos guardados no browser, animações e pesquisa em português.
 Desenhado como uma app móvel, com barra de navegação inferior e
 página de detalhe por país.
 
-🔗 **Site publicado:** `https://TEU-UTILIZADOR.github.io/explorador-de-paises/`
+🔗 **Site publicado:** `https://nongoantonio.github.io/explorador-de-paises/`
 (substitui pelo teu URL real depois do primeiro deploy — ver secção 2)
 
 ---
