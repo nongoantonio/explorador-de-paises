@@ -6,7 +6,7 @@ favoritos guardados no browser, animações e pesquisa em português.
 Desenhado como uma app móvel, com barra de navegação inferior e
 página de detalhe por país.
 
-🔗 **Site publicado:** `https://TEU-UTILIZADOR.github.io/atlas-interativo/`
+🔗 **Site publicado:** `https://TEU-UTILIZADOR.github.io/explorador-de-paises/`
 (substitui pelo teu URL real depois do primeiro deploy — ver secção 2)
 
 ---
@@ -36,10 +36,10 @@ automaticamente sempre que fazes `push` para a branch `main`.
 
 ### Passo a passo (só precisas de fazer isto uma vez)
 
-1. **Confirma o nome do teu repositório no GitHub** (ex.: `atlas-interativo`).
+1. **Confirma o nome do teu repositório no GitHub** (ex.: `explorador-de-paises`).
    Se for diferente, abre `vite.config.ts` e muda a linha:
    ```ts
-   base: '/atlas-interativo/',
+   base: '/explorador-de-paises/',
    ```
    para o nome exato do teu repositório (tem de bater certo com o URL,
    incluindo maiúsculas/minúsculas).
@@ -63,7 +63,7 @@ automaticamente sempre que fazes `push` para a branch `main`.
 
 5. O URL final aparece em **Settings → Pages**, normalmente:
    ```
-   https://TEU-UTILIZADOR.github.io/atlas-interativo/
+   https://TEU-UTILIZADOR.github.io/explorador-de-paises/
    ```
 
 ### Sempre que quiseres atualizar o site publicado
@@ -80,7 +80,7 @@ git push
 ### Porquê algumas decisões técnicas específicas para o GitHub Pages
 
 - **`base` no `vite.config.ts`**: o GitHub Pages publica o site numa
-  subpasta (`/atlas-interativo/`), não na raiz do domínio. Sem isto,
+  subpasta (`/explorador-de-paises/`), não na raiz do domínio. Sem isto,
   os ficheiros JS/CSS e os ícones não seriam encontrados.
 - **`HashRouter` em vez de `BrowserRouter`** (em `src/main.tsx`): o
   GitHub Pages só serve ficheiros estáticos, sem servidor a redirecionar
