@@ -1,5 +1,4 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Globe2, Compass, Sparkles } from "lucide-react";
 import { useCountriesContext } from "../context/CountriesContext";
 import { useCountryFilter } from "../hooks/useCountryFilter";
 import { SearchBar } from "../components/SearchBar";
@@ -10,7 +9,6 @@ import { Loader } from "../components/Loader";
 import { StateMessage } from "../components/StateMessage";
 import { GlobeIllustration } from "../components/GlobeIllustration";
 import { MountainBanner } from "../components/MountainBanner";
-import { REGIONS } from "../types/country";
 
 // Variantes do framer-motion para a lista de resultados: o contentor
 // avisa cada filho com um pequeno atraso ("staggerChildren"), criando
@@ -72,21 +70,6 @@ export function ExplorePage() {
           <p>
             Dados de capitais, população e moeda de {countries.length || "…"} países.
           </p>
-
-          <div className="hero__stats">
-            <div className="hero__stat">
-              <Globe2 size={16} strokeWidth={2} aria-hidden="true" />
-              <span>{countries.length || "195"} países</span>
-            </div>
-            <div className="hero__stat">
-              <Compass size={16} strokeWidth={2} aria-hidden="true" />
-              <span>{REGIONS.length} continentes</span>
-            </div>
-            <div className="hero__stat">
-              <Sparkles size={16} strokeWidth={2} aria-hidden="true" />
-              <span>Fotos ao vivo</span>
-            </div>
-          </div>
         </div>
 
         <motion.div
