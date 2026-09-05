@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { Globe2, Compass, Sparkles } from "lucide-react";
 import { useCountriesContext } from "../context/CountriesContext";
 import { useCountryFilter } from "../hooks/useCountryFilter";
 import { SearchBar } from "../components/SearchBar";
@@ -9,6 +10,7 @@ import { Loader } from "../components/Loader";
 import { StateMessage } from "../components/StateMessage";
 import { GlobeIllustration } from "../components/GlobeIllustration";
 import { MountainBanner } from "../components/MountainBanner";
+import { REGIONS } from "../types/country";
 
 // Variantes do framer-motion para a lista de resultados: o contentor
 // avisa cada filho com um pequeno atraso ("staggerChildren"), criando
@@ -43,6 +45,13 @@ export function ExplorePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
+        {/* Camadas puramente decorativas: textura de pontos (evoca um
+            gráticulo de mapa) + um brilho radial dourado a partir do
+            globo, para o resto do hero deixar de parecer "cor plana
+            + texto" e passar a sentir-se como uma cena única. */}
+        <div className="hero__texture" aria-hidden="true" />
+        <div className="hero__glow" aria-hidden="true" />
+
         <div className="hero__brand">
           <span className="hero__brand-icon" aria-hidden="true">
             🌍
@@ -54,6 +63,7 @@ export function ExplorePage() {
         </div>
 
         <div className="hero__intro">
+          <span className="hero__rule" aria-hidden="true" />
           <h1>
             Explora o mundo,
             <br />
@@ -62,6 +72,21 @@ export function ExplorePage() {
           <p>
             Dados de capitais, população e moeda de {countries.length || "…"} países.
           </p>
+
+          <div className="hero__stats">
+            <div className="hero__stat">
+              <Globe2 size={16} strokeWidth={2} aria-hidden="true" />
+              <span>{countries.length || "195"} países</span>
+            </div>
+            <div className="hero__stat">
+              <Compass size={16} strokeWidth={2} aria-hidden="true" />
+              <span>{REGIONS.length} continentes</span>
+            </div>
+            <div className="hero__stat">
+              <Sparkles size={16} strokeWidth={2} aria-hidden="true" />
+              <span>Fotos ao vivo</span>
+            </div>
+          </div>
         </div>
 
         <motion.div

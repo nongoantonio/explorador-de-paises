@@ -178,10 +178,20 @@ export async function fetchCountryLandscapeImage(
 
   if (capitalName) {
     attempts.push(() => fetchWikivoyageBanner(capitalName, capitalName));
-    attempts.push(() => searchCommonsPhoto(`${capitalName} skyline cityscape`, capitalName));
+    attempts.push(() =>
+      searchCommonsPhoto(
+        `${capitalName} downtown skyline modern architecture -slum -poverty -shantytown -market -garbage`,
+        capitalName
+      )
+    );
   }
   attempts.push(() => fetchWikivoyageBanner(countryName, countryName));
-  attempts.push(() => searchCommonsPhoto(`${countryName} landmark landscape`, countryName));
+  attempts.push(() =>
+    searchCommonsPhoto(
+      `${countryName} landmark modern architecture -slum -poverty -shantytown -market -garbage`,
+      countryName
+    )
+  );
   attempts.push(() => fetchWikipediaLeadImage(countryName, countryName));
 
   let result: CountryImageResult | null = null;
