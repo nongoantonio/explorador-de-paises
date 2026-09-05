@@ -68,7 +68,8 @@ export function ExplorePage() {
             um país de cada vez
           </h1>
           <p>
-            Dados de capitais, população e moeda de {countries.length || "…"} países.
+            Bandeiras, capitais, população e moeda — {countries.length || "195"}{" "}
+            países à distância de uma pesquisa.
           </p>
         </div>
 

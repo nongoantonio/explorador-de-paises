@@ -104,7 +104,11 @@ async function searchCommonsPhoto(
     action: "query",
     format: "json",
     generator: "search",
-    gsrsearch: `${searchTerms} -flag -coat -emblem -map -icon -logo`,
+    // "filetype:bitmap" é a sintaxe correta e documentada do motor de
+    // pesquisa da Wikimedia para restringir a ficheiros de imagem
+    // (jpg/png/gif/webp), excluindo ficheiros vetoriais (SVG) — que é
+    // o formato mais usado no Commons para mapas, bandeiras e brasões.
+    gsrsearch: `${searchTerms} filetype:bitmap -flag -coat -emblem -map -icon -logo -location -administrative -districts -relief -topographic -blank`,
     gsrnamespace: "6", // namespace 6 = "File:"
     gsrlimit: "1",
     prop: "imageinfo",
