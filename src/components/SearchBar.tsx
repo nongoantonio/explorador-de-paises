@@ -33,7 +33,7 @@ export function SearchBar({ value, onSearch }: SearchBarProps) {
           type="text"
           value={value}
           onChange={(event) => onSearch(event.target.value)}
-          placeholder="ex.: Angola, Alemanha, Japão..."
+          placeholder="Pesquisar..."
           autoComplete="off"
           inputMode="search"
         />

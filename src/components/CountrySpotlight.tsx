@@ -15,8 +15,11 @@ interface CountrySpotlightProps {
 }
 
 export function CountrySpotlight({ country }: CountrySpotlightProps) {
-  const { imageUrl, caption, isLoading } = useCountryImage(country.name.common);
   const capital = country.capital[0] ?? "Sem capital registada";
+  const { imageUrl, caption, isLoading } = useCountryImage(
+    country.name.common,
+    country.capital[0]
+  );
 
   return (
     <motion.div

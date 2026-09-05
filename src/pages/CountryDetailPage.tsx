@@ -103,7 +103,7 @@ export function CountryDetailPage() {
           >
             {activeTab === "Visão geral" && (
               <>
-                <CountryLandscape countryName={country.name.common} />
+                <CountryLandscape countryName={country.name.common} capitalName={country.capital[0]} />
 
                 <div className="stat-list">
                   <StatRow icon={Building2} label="Capital" value={capital} />
@@ -194,8 +194,14 @@ export function CountryDetailPage() {
 
 // Faixa com a paisagem real do país (mesma fonte de imagem do cartão
 // de destaque na pesquisa), mostrada no topo do separador "Visão geral".
-function CountryLandscape({ countryName }: { countryName: string }) {
-  const { imageUrl, caption, isLoading } = useCountryImage(countryName);
+function CountryLandscape({
+  countryName,
+  capitalName,
+}: {
+  countryName: string;
+  capitalName?: string;
+}) {
+  const { imageUrl, caption, isLoading } = useCountryImage(countryName, capitalName);
 
   if (!imageUrl && !isLoading) return null;
 

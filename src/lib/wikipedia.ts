@@ -1,17 +1,21 @@
-// Fonte da imagem de paisagem de cada país, em 3 tentativas por ordem
-// de qualidade esperada:
+// Fonte da imagem de paisagem de cada país.
 //
-// 1) Wikivoyage — o "guia de viagens" da Wikimedia. Os artigos de
-//    países no Wikivoyage têm uma imagem de banner escolhida à mão
-//    pelos editores para representar bem o destino (paisagens,
-//    monumentos, vistas conhecidas) — por isso tende a dar resultados
-//    mais "icónicos" do que uma pesquisa genérica.
-// 2) Wikimedia Commons — pesquisa por "{país} landmark landscape",
-//    excluindo bandeiras/brasões/mapas. Também nos dá o TÍTULO do
-//    ficheiro e a sua descrição, que usamos para montar a legenda
-//    (ex.: "Kalandula Falls, Malanje").
-// 3) Imagem principal da página da Wikipedia em inglês — reserva final,
-//    caso as duas anteriores não encontrem nada.
+// Em vez de pesquisar só pelo nome do país (o que costuma devolver
+// fotos genéricas de campo ou de natureza, pouco reconhecíveis),
+// damos preferência à CIDADE CAPITAL — cidades têm muito mais
+// fotografias urbanas catalogadas (skylines, avenidas, monumentos),
+// que é o que dá a sensação de "imagem atual de uma cidade" em vez de
+// "paisagem qualquer".
+//
+// Ordem de tentativas:
+// 1) Wikivoyage da CIDADE capital — banners de viagem escolhidos por
+//    editores humanos, específicos da cidade.
+// 2) Wikimedia Commons — pesquisa por "{capital} skyline cityscape",
+//    excluindo bandeiras/brasões/mapas/ícones. Esta é também a única
+//    fonte de onde conseguimos extrair uma legenda com o nome exato
+//    do local fotografado.
+// 3) Wikivoyage do PAÍS (caso a capital não tenha banner próprio).
+// 4) Imagem principal da página do país na Wikipedia — reserva final.
 //
 // Todas gratuitas, sem conta nem chave, com CORS via "origin=*"
 // (documentado pela própria Wikimedia para pedidos anónimos).
@@ -21,16 +25,15 @@ const WIKIPEDIA_API = "https://en.wikipedia.org/w/api.php";
 
 export interface CountryImageResult {
   url: string;
-  // Legenda com o local/descrição da fotografia, quando conseguimos
-  // extraí-la (nem sempre é possível) — null nesse caso, e a interface
-  // mostra só o nome da fonte.
-  caption: string | null;
+  // Legenda com o local da fotografia — tentamos SEMPRE preencher isto
+  // com algo útil (o nome da cidade/local pesquisado, no mínimo),
+  // nunca deixamos ficar vazio só porque a fonte não tinha uma
+  // descrição pronta a usar.
+  caption: string;
 }
 
 const imageCache = new Map<string, CountryImageResult | null>();
 
-// Remove tags HTML (a Wikimedia devolve descrições em HTML) e espaços
-// a mais, para a legenda ficar em texto simples e limpo.
 function stripHtml(value: string): string {
   return value
     .replace(/<[^>]+>/g, "")
@@ -38,9 +41,6 @@ function stripHtml(value: string): string {
     .trim();
 }
 
-// Transforma "Kalandula_Falls,_Malanje_Province.jpg" em
-// "Kalandula Falls, Malanje Province" — usado quando não há uma
-// descrição melhor disponível nos metadados do ficheiro.
 function captionFromFileTitle(title: string): string {
   return title
     .replace(/^File:/, "")
@@ -51,19 +51,25 @@ function captionFromFileTitle(title: string): string {
 
 interface WikivoyagePage {
   pageid: number;
-  original?: { source: string };
   thumbnail?: { source: string };
 }
 
-async function fetchWikivoyageBanner(countryName: string): Promise<CountryImageResult | null> {
+// Busca o banner de viagem de um artigo do Wikivoyage (país ou cidade).
+// "fallbackCaption" é o que usamos como legenda, já que o Wikivoyage
+// não devolve uma descrição do local por esta via — mas sabemos
+// perfeitamente do que se trata, porque fomos nós que pedimos por nome.
+async function fetchWikivoyageBanner(
+  placeName: string,
+  fallbackCaption: string
+): Promise<CountryImageResult | null> {
   const params = new URLSearchParams({
     action: "query",
     format: "json",
     prop: "pageimages",
-    piprop: "original|thumbnail",
+    piprop: "thumbnail",
     pithumbsize: "640",
     redirects: "1",
-    titles: countryName,
+    titles: placeName,
     origin: "*",
   });
 
@@ -73,11 +79,7 @@ async function fetchWikivoyageBanner(countryName: string): Promise<CountryImageR
   const data = (await response.json()) as { query?: { pages?: Record<string, WikivoyagePage> } };
   const pages = data.query?.pages ? Object.values(data.query.pages) : [];
   const source = pages[0]?.thumbnail?.source;
-  if (!source) return null;
-
-  // O banner do Wikivoyage não vem com uma legenda de local associada
-  // por esta via, por isso identificamos só a fonte.
-  return { url: source, caption: null };
+  return source ? { url: source, caption: fallbackCaption } : null;
 }
 
 interface CommonsImageInfo {
@@ -94,12 +96,15 @@ interface CommonsPage {
   imageinfo?: CommonsImageInfo[];
 }
 
-async function searchCommonsLandscape(countryName: string): Promise<CountryImageResult | null> {
+async function searchCommonsPhoto(
+  searchTerms: string,
+  fallbackCaption: string
+): Promise<CountryImageResult | null> {
   const params = new URLSearchParams({
     action: "query",
     format: "json",
     generator: "search",
-    gsrsearch: `${countryName} landmark landscape -flag -coat -emblem -map -icon -logo`,
+    gsrsearch: `${searchTerms} -flag -coat -emblem -map -icon -logo`,
     gsrnamespace: "6", // namespace 6 = "File:"
     gsrlimit: "1",
     prop: "imageinfo",
@@ -117,18 +122,15 @@ async function searchCommonsLandscape(countryName: string): Promise<CountryImage
   const info = page?.imageinfo?.[0];
   if (!info?.thumburl) return null;
 
-  // Preferimos uma descrição curta e legível dos metadados do ficheiro;
-  // se vier vazia, longa demais, ou não existir, usamos o título do
-  // próprio ficheiro (que no Commons costuma incluir o nome do local).
   const rawDescription =
     info.extmetadata?.ObjectName?.value || info.extmetadata?.ImageDescription?.value;
   const cleanDescription = rawDescription ? stripHtml(rawDescription) : "";
   const caption =
-    cleanDescription && cleanDescription.length <= 80
+    cleanDescription && cleanDescription.length <= 80 && cleanDescription.length > 0
       ? cleanDescription
-      : captionFromFileTitle(page.title);
+      : captionFromFileTitle(page.title) || fallbackCaption;
 
-  return { url: info.thumburl, caption: caption || null };
+  return { url: info.thumburl, caption };
 }
 
 interface WikipediaPage {
@@ -136,7 +138,10 @@ interface WikipediaPage {
   thumbnail?: { source: string };
 }
 
-async function fetchWikipediaLeadImage(countryName: string): Promise<CountryImageResult | null> {
+async function fetchWikipediaLeadImage(
+  countryName: string,
+  fallbackCaption: string
+): Promise<CountryImageResult | null> {
   const params = new URLSearchParams({
     action: "query",
     format: "json",
@@ -154,23 +159,30 @@ async function fetchWikipediaLeadImage(countryName: string): Promise<CountryImag
   const data = (await response.json()) as { query?: { pages?: Record<string, WikipediaPage> } };
   const pages = data.query?.pages ? Object.values(data.query.pages) : [];
   const source = pages[0]?.thumbnail?.source;
-  return source ? { url: source, caption: null } : null;
+  return source ? { url: source, caption: fallbackCaption } : null;
 }
 
+// "capitalName" é opcional (alguns territórios não têm capital
+// registada) — quando existe, é sempre a primeira prioridade de
+// pesquisa, por dar imagens mais urbanas e reconhecíveis.
 export async function fetchCountryLandscapeImage(
-  countryName: string
+  countryName: string,
+  capitalName?: string
 ): Promise<CountryImageResult | null> {
-  if (imageCache.has(countryName)) {
-    return imageCache.get(countryName)!;
+  const cacheKey = `${countryName}::${capitalName ?? ""}`;
+  if (imageCache.has(cacheKey)) {
+    return imageCache.get(cacheKey)!;
   }
 
-  // Tentamos as 3 fontes por ordem, uma de cada vez — só avançamos
-  // para a seguinte se a anterior falhar ou não devolver nada.
-  const attempts = [
-    () => fetchWikivoyageBanner(countryName),
-    () => searchCommonsLandscape(countryName),
-    () => fetchWikipediaLeadImage(countryName),
-  ];
+  const attempts: Array<() => Promise<CountryImageResult | null>> = [];
+
+  if (capitalName) {
+    attempts.push(() => fetchWikivoyageBanner(capitalName, capitalName));
+    attempts.push(() => searchCommonsPhoto(`${capitalName} skyline cityscape`, capitalName));
+  }
+  attempts.push(() => fetchWikivoyageBanner(countryName, countryName));
+  attempts.push(() => searchCommonsPhoto(`${countryName} landmark landscape`, countryName));
+  attempts.push(() => fetchWikipediaLeadImage(countryName, countryName));
 
   let result: CountryImageResult | null = null;
   for (const attempt of attempts) {
@@ -182,6 +194,6 @@ export async function fetchCountryLandscapeImage(
     if (result) break;
   }
 
-  imageCache.set(countryName, result);
+  imageCache.set(cacheKey, result);
   return result;
 }
