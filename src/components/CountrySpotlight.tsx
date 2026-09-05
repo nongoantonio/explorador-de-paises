@@ -76,7 +76,7 @@ export function CountrySpotlight({ country }: CountrySpotlightProps) {
               </motion.div>
             )}
           </AnimatePresence>
-          <span className="spotlight-card__credit">Imagem: Wikipedia</span>
+          <span className="spotlight-card__credit">Imagem: Wikimedia Commons</span>
         </div>
       </Link>
     </motion.div>

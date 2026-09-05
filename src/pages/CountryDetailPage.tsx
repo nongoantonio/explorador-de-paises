@@ -223,7 +223,7 @@ function CountryLandscape({ countryName }: { countryName: string }) {
           </motion.div>
         )}
       </AnimatePresence>
-      {imageUrl && <span className="detail-landscape__credit">Imagem: Wikipedia</span>}
+      {imageUrl && <span className="detail-landscape__credit">Imagem: Wikimedia Commons</span>}
     </div>
   );
 }
