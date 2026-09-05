@@ -108,7 +108,7 @@ async function searchCommonsPhoto(
     // pesquisa da Wikimedia para restringir a ficheiros de imagem
     // (jpg/png/gif/webp), excluindo ficheiros vetoriais (SVG) — que é
     // o formato mais usado no Commons para mapas, bandeiras e brasões.
-    gsrsearch: `${searchTerms} filetype:bitmap -flag -coat -emblem -map -icon -logo -location -administrative -districts -relief -topographic -blank`,
+    gsrsearch: `${searchTerms} filetype:bitmap -flag -coat -emblem -map -icon -logo -intitle:map -intitle:location -intitle:administrative -intitle:province -intitle:provinces -intitle:region -intitle:district -intitle:districts -intitle:diplomatic -intitle:missions -intitle:boundary -intitle:relief -intitle:topographic -intitle:blank`,
     gsrnamespace: "6", // namespace 6 = "File:"
     gsrlimit: "1",
     prop: "imageinfo",
@@ -180,7 +180,13 @@ export async function fetchCountryLandscapeImage(
 
   const attempts: Array<() => Promise<CountryImageResult | null>> = [];
 
+  // A imagem de destaque (infobox) da página da Wikipedia da CIDADE
+  // capital costuma ser uma fotografia real quando existe — tentamos
+  // isto primeiro, antes de recorrer à pesquisa de texto livre no
+  // Commons (mais suscetível a apanhar mapas, como descobrimos com
+  // o Burundi: nem todos os mapas têm a palavra "mapa" no título).
   if (capitalName) {
+    attempts.push(() => fetchWikipediaLeadImage(capitalName, capitalName));
     attempts.push(() => fetchWikivoyageBanner(capitalName, capitalName));
     attempts.push(() =>
       searchCommonsPhoto(
