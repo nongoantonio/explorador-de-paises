@@ -258,21 +258,27 @@
   gap: 8px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 4px 6px 4px 14px;
+  border-radius: var(--radius-pill);
+  padding: 4px 4px 4px 16px;
   box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.search-bar__field svg {
+.search-bar__icon {
   color: var(--color-muted);
   flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.search-bar__field:focus-within .search-bar__icon {
+  color: var(--color-forest);
 }
 
 .search-bar__field input {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 10px 4px;
+  padding: 12px 4px;
   font-family: var(--font-body);
   font-size: 0.95rem;
   color: var(--color-ink);
@@ -286,7 +292,6 @@
 .search-bar__field:focus-within {
   border-color: var(--color-forest);
   box-shadow: 0 0 0 3px rgba(18, 56, 50, 0.12), var(--shadow-card);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .search-bar__clear {
@@ -306,6 +311,27 @@
 .search-bar__clear:hover {
   background: var(--color-forest);
   color: var(--color-cream-on-forest);
+}
+
+/* Botão "Pesquisar": um círculo cheio, sempre visível, para a barra
+   nunca parecer "incompleta" — mesmo sabendo que a filtragem já
+   acontece sozinha a cada letra escrita. */
+.search-bar__submit {
+  border: none;
+  background: var(--color-forest);
+  color: var(--color-cream-on-forest);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.search-bar__submit:hover {
+  background: var(--color-forest-light);
 }
 
 /* ============ CONTINENT GRID ============ */
@@ -903,13 +929,17 @@
 
 .spotlight-card__credit {
   position: absolute;
-  right: 8px;
-  bottom: 8px;
-  background: rgba(18, 56, 50, 0.65);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px 12px 8px;
+  background: linear-gradient(to top, rgba(18, 56, 50, 0.85), transparent);
   color: #fff;
-  font-size: 0.65rem;
-  padding: 2px 8px;
-  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Efeito "shimmer" enquanto a imagem carrega — uma faixa clara que
@@ -957,13 +987,17 @@
 
 .detail-landscape__credit {
   position: absolute;
-  right: 8px;
-  bottom: 8px;
-  background: rgba(18, 56, 50, 0.65);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px 12px 8px;
+  background: linear-gradient(to top, rgba(18, 56, 50, 0.85), transparent);
   color: #fff;
-  font-size: 0.65rem;
-  padding: 2px 8px;
-  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ============ BOTTOM NAV ICON WRAPPER ============ */

@@ -195,7 +195,7 @@ export function CountryDetailPage() {
 // Faixa com a paisagem real do país (mesma fonte de imagem do cartão
 // de destaque na pesquisa), mostrada no topo do separador "Visão geral".
 function CountryLandscape({ countryName }: { countryName: string }) {
-  const { imageUrl, isLoading } = useCountryImage(countryName);
+  const { imageUrl, caption, isLoading } = useCountryImage(countryName);
 
   if (!imageUrl && !isLoading) return null;
 
@@ -223,7 +223,9 @@ function CountryLandscape({ countryName }: { countryName: string }) {
           </motion.div>
         )}
       </AnimatePresence>
-      {imageUrl && <span className="detail-landscape__credit">Imagem: Wikimedia Commons</span>}
+      {imageUrl && (
+        <span className="detail-landscape__credit">{caption ?? "Imagem: Wikimedia"}</span>
+      )}
     </div>
   );
 }

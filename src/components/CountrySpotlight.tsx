@@ -15,7 +15,7 @@ interface CountrySpotlightProps {
 }
 
 export function CountrySpotlight({ country }: CountrySpotlightProps) {
-  const { imageUrl, isLoading } = useCountryImage(country.name.common);
+  const { imageUrl, caption, isLoading } = useCountryImage(country.name.common);
   const capital = country.capital[0] ?? "Sem capital registada";
 
   return (
@@ -76,7 +76,9 @@ export function CountrySpotlight({ country }: CountrySpotlightProps) {
               </motion.div>
             )}
           </AnimatePresence>
-          <span className="spotlight-card__credit">Imagem: Wikimedia Commons</span>
+          <span className="spotlight-card__credit">
+            {caption ?? "Imagem: Wikimedia"}
+          </span>
         </div>
       </Link>
     </motion.div>
