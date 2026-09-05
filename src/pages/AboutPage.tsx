@@ -11,9 +11,11 @@ export function AboutPage() {
     <div className="simple-page">
       {/* ---------- Perfil do autor ---------- */}
       <section className="profile-card">
-        <div className="profile-card__avatar" aria-hidden="true">
-          NA
-        </div>
+        <img
+          src={`${import.meta.env.BASE_URL}profile-nongo.jpg`}
+          alt="Foto de Nongo António"
+          className="profile-card__avatar"
+        />
 
         <h1 className="profile-card__name">Nongo António</h1>
         <p className="profile-card__role">
