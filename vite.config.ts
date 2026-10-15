@@ -12,5 +12,5 @@ export default defineConfig({
   // imagens) já com esse prefixo. Tem de bater certo com o nome EXATO
   // do repositório no GitHub (o que aparece no URL, incluindo
   // maiúsculas/minúsculas).
-  base: '/explorador-de-paises/',
+  base: '/',
 })
