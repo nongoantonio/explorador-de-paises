@@ -5,7 +5,7 @@ de 195 países — com pesquisa em português, favoritos, animações e
 paisagens reais por país. Construído com **React + TypeScript + Vite**,
 publicado no **GitHub Pages**.
 
-**🔗 Site publicado:** https://nongoantonio.github.io/explorador-de-paises/
+**🔗 Site publicado:** https://explorador-de-paises-six.vercel.app//
 
 ---
 
